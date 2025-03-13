@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>뱀파이어 유형 테스트</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1a1a1a;
+            color: #fff;
+            text-align: center;
+            padding: 50px;
+        }
+        h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+        h3 {
+            font-size: 24px;
+        }
+        .question {
+            margin-top: 30px;
+            font-size: 20px;
+        }
+        .choices {
+            margin-top: 20px;
+        }
+        button {
+            background-color: #333;
+            color: #fff;
+            font-size: 18px;
+            padding: 15px 30px;
+            border: none;
+            cursor: pointer;
+            width: 200px;
+            margin: 5px;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #555;
+        }
+        .result {
+            display: none;
+            margin-top: 30px;
+            font-size: 22px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>연극 <뱀이특법> 속 나의 뱀파이어 유형은?</h1>
+    <p>XXXX년 한국, 이름 모를 뱀파이어에게 물려 뱀파이어가 된 나. 앞으로 나는 어떤 유형의 뱀파이어로 살게 될까?</p>
+    
+    <div class="question" id="question1">
+        <h3>1. 영원을 살아갈 운명이 되었다. 당신은 무엇이 가장 두려운가?</h3>
+        <div class="choices">
+            <button onclick="answer(1, 'A')">A) 함께했던 이들이 하나둘 사라지는 것.</button>
+            <button onclick="answer(1, 'B')">B) 삶을 끝내지 못하고 끊임없이 살아가는 것.</button>
+            <button onclick="answer(1, 'C')">C) 내가 모르는 어떤 것이 나를 위협하는 것.</button>
+            <button onclick="answer(1, 'D')">D) 내 본능을 억누르지 못하고 괴물이 되는 것.</button>
+        </div>
+    </div>
+
+    <div class="question" id="question2" style="display: none;">
+        <h3>2. 피가 마시고 싶어진다. 당신은 어떻게 할 것인가?</h3>
+        <div class="choices">
+            <button onclick="answer(2, 'A')">A) 본능을 부정할 필요는 없으니 원하는 대로 마신다.</button>
+            <button onclick="answer(2, 'B')">B) 죄책감을 느끼면서도 결국 마시고 후회한다.</button>
+            <button onclick="answer(2, 'C')">C) 자제력을 잃지 않고 필요한 만큼만 마신다.</button>
+            <button onclick="answer(2, 'D')">D) 최대한 참거나, 대체할 방법을 찾아본다.</button>
+        </div>
+    </div>
+
+    <!-- Additional questions go here, repeating the same structure -->
+
+    <div class="result" id="result">
+        <h3>결과:</h3>
+        <p id="resultText"></p>
+    </div>
+
+    <script>
+        let answers = {
+            A: 0,
+            B: 0,
+            C: 0,
+            D: 0
+        };
+
+        function answer(question, choice) {
+            answers[choice]++;
+            let nextQuestion = question + 1;
+            let currentQuestion = document.getElementById("question" + question);
+            currentQuestion.style.display = "none";
+
+            if (document.getElementById("question" + nextQuestion)) {
+                let next = document.getElementById("question" + nextQuestion);
+                next.style.display = "block";
+            } else {
+                showResult();
+            }
+        }
+
+        function showResult() {
+            let maxAnswer = Math.max(answers.A, answers.B, answers.C, answers.D);
+            let resultText = "";
+
+            let resultOptions = [];
+            if (answers.A === maxAnswer) resultOptions.push('애디');
+            if (answers.B === maxAnswer) resultOptions.push('이브');
+            if (answers.C === maxAnswer) resultOptions.push('윤');
+            if (answers.D === maxAnswer) resultOptions.push('정');
+
+            if (resultOptions.length > 1) {
+                let randomIndex = Math.floor(Math.random() * resultOptions.length);
+                resultText = `당신의 뱀파이어 유형은 '${resultOptions[randomIndex]}'입니다.`;
+            } else {
+                resultText = `당신의 뱀파이어 유형은 '${resultOptions[0]}'입니다.`;
+            }
+
+            document.getElementById("resultText").innerText = resultText;
+            document.getElementById("result").style.display = "block";
+        }
+    </script>
+</body>
+</html>
